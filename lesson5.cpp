@@ -8,7 +8,7 @@ using namespace sf;
 
 const int window_width = 800;
 const int window_height = 600;
-
+const float radius = 10.0f;
 void draw_circle(RenderWindow& window, float x, float y, float r,Color color_l)
 {
     CircleShape ball(r);
@@ -39,7 +39,6 @@ class Light
     
         int get_x() const {return x;}
         int get_y() const {return y;}
-
         void turn_on() {glow = true;}
         void turn_off() { glow = false;}
     
@@ -49,12 +48,18 @@ class Light
         {
             x += vx;
             y += vy;
+
+            if (x + radius >= window_width or x <= 0)
+                vx *= -1;
+
+            if (y + radius >= window_height or y <= 0)
+                vy *= -1;
         }
 
         void draw(RenderWindow& window)
         {
             if(glow)
-                draw_circle(window,x,y,10.0f,Color::Yellow);
+                draw_circle(window,x,y,radius,Color::Yellow);
         }
     
 };
