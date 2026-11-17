@@ -87,7 +87,8 @@ class Light
             if(glow)
                 draw_circle(window,x,y,radius,Color::Yellow);
         }
-    
+
+
 };
 
 int main()
@@ -114,13 +115,23 @@ int main()
         
         window.clear(Color(30,30,30));
 
+       Vector2i mousePos = Mouse::getPosition(window);
+       float wandX = mousePos.x; float wandY = mousePos.y;
+
+
         for (int i = 0; i < n; ++i)
             obj[i].draw(window);
 
         for (int i = 0; i < n; ++i)
-            obj[i].move();
-       Vector2i mousePos = Mouse::getPosition(window);
-        
+            {
+                obj[i].move();
+                float dx = wandX - obj[i].get_x();
+                float dy = wandY - obj[i].get_y();
+                float dist = sqrt(dx*dx + dy*dy);
+                if (dist < 15)
+                    obj[i].turn_off();
+
+            }
         mouse_spawn(window,mousePos.x,mousePos.y,mousePos.x + 40,mousePos.y + 40,5,5,Brown,Color::Green);
 
 
